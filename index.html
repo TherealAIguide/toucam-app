@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TouCam — Record both cameras at once</title>
+<meta name="description" content="TouCam records your front and back cameras at the same time — your reaction and what you're watching, together. Join the free beta." />
+<meta property="og:title" content="TouCam — Record both cameras at once" />
+<meta property="og:description" content="Your reaction and what you're watching, in one video. Join the free iPhone beta." />
+<style>
+  :root{ color-scheme:dark; --amber:#ffb04c; --bg:#0d0f14; --card:#151823; --line:#232838; --mut:#9aa3b2; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:#e7e9ee; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif; line-height:1.6; }
+  a{ color:inherit; }
+  .wrap{ max-width:980px; margin:0 auto; padding:0 22px; }
+  /* header */
+  header{ position:sticky; top:0; z-index:20; backdrop-filter:blur(12px); background:rgba(13,15,20,.72); border-bottom:1px solid var(--line); }
+  .hrow{ display:flex; align-items:center; justify-content:space-between; height:60px; }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:800; font-size:1.15rem; }
+  .iris{ width:32px;height:32px;border-radius:50%; background:conic-gradient(from 0deg,#2ed9f2,#f240b2,#ffb81a,#2ed9f2); display:flex;align-items:center;justify-content:center; position:relative; }
+  .iris::after{ content:""; width:18px;height:18px;border-radius:50%; background:var(--bg); }
+  .iris .dot{ position:absolute; width:5px;height:5px;border-radius:50%;background:#fff; }
+  .btn{ display:inline-block; text-decoration:none; background:var(--amber); color:#111; font-weight:800; padding:11px 18px; border-radius:11px; }
+  .btn.big{ font-size:1.15rem; padding:16px 26px; }
+  .btn.ghost{ background:transparent; color:#fff; border:1px solid var(--line); font-weight:600; }
+  /* hero */
+  .hero{ text-align:center; padding:70px 0 40px; }
+  .hero h1{ font-size:clamp(2.1rem,6vw,3.4rem); line-height:1.08; letter-spacing:-1px; margin:0 0 14px; }
+  .hero h1 .g{ background:linear-gradient(90deg,#2ed9f2,#f240b2,#ffb81a); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero p{ font-size:1.2rem; color:var(--mut); max-width:600px; margin:0 auto 28px; }
+  .pill{ display:inline-block; font-size:.8rem; color:var(--mut); border:1px solid var(--line); border-radius:100px; padding:5px 14px; margin-bottom:22px; }
+  .sub{ color:#6b7280; font-size:.85rem; margin-top:12px; }
+  /* phone mock */
+  .phone{ width:230px; margin:44px auto 0; border-radius:36px; border:10px solid #000; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.6); aspect-ratio:9/19.5; display:flex; flex-direction:column; background:#000; position:relative; }
+  .phone .half{ flex:1; display:flex; align-items:center; justify-content:center; font-size:2.4rem; }
+  .phone .top{ background:linear-gradient(160deg,#2a3550,#1a2238); }
+  .phone .bot{ background:linear-gradient(160deg,#3a2a1a,#241a10); }
+  .phone .rec{ position:absolute; bottom:14px; right:14px; width:40px;height:40px;border-radius:50%; background:conic-gradient(from 0deg,#2ed9f2,#f240b2,#ffb81a,#2ed9f2); display:flex;align-items:center;justify-content:center; }
+  .phone .rec::after{ content:""; width:14px;height:14px;border-radius:50%;background:#fff; }
+  .phone .island{ position:absolute; top:8px; left:50%; transform:translateX(-50%); width:70px;height:14px;border-radius:10px;background:#000; }
+  /* sections */
+  section{ padding:56px 0; border-top:1px solid var(--line); }
+  h2{ font-size:1.7rem; text-align:center; margin:0 0 8px; }
+  .lead{ text-align:center; color:var(--mut); max-width:560px; margin:0 auto 34px; }
+  .feats{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  @media(max-width:720px){ .feats{ grid-template-columns:1fr; } }
+  .feat{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; }
+  .feat .ic{ font-size:1.6rem; }
+  .feat h3{ margin:10px 0 4px; font-size:1.05rem; }
+  .feat p{ margin:0; color:var(--mut); font-size:.92rem; }
+  /* steps */
+  .steps{ max-width:560px; margin:0 auto; }
+  .step{ display:flex; gap:14px; align-items:flex-start; margin:16px 0; }
+  .num{ flex:0 0 32px; height:32px; border-radius:50%; background:var(--amber); color:#111; font-weight:800; display:flex; align-items:center; justify-content:center; }
+  .step b{ color:#fff; } .step p{ margin:0; color:#c7ccd8; }
+  .center{ text-align:center; }
+  footer{ border-top:1px solid var(--line); padding:34px 0; text-align:center; color:#5b616e; font-size:.85rem; }
+  footer a{ color:#6fd0e6; text-decoration:none; }
+</style>
+</head>
+<body>
+<header><div class="wrap hrow">
+  <div class="brand"><span class="iris"><span class="dot"></span></span> TouCam</div>
+  <a class="btn" href="https://testflight.apple.com/join/KgprnYKC">Join the beta</a>
+</div></header>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="pill">🦜 Free iPhone beta · now open</div>
+    <h1>Record <span class="g">both cameras</span><br/>at the same time.</h1>
+    <p>Your reaction <em>and</em> what you're watching — captured together in one video. Built for game reactions, vlogs, and dual-angle moments.</p>
+    <a class="btn big" href="https://testflight.apple.com/join/KgprnYKC">Join the free beta →</a>
+    <div class="sub">Free · iPhone · about a minute to set up</div>
+
+    <div class="phone">
+      <div class="island"></div>
+      <div class="half top">😮</div>
+      <div class="half bot">⚽️</div>
+      <div class="rec"></div>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <h2>One phone. Both angles.</h2>
+  <p class="lead">Most cameras make you choose: film yourself, or film the moment. TouCam does both at once — front and back, recording together.</p>
+  <div class="feats">
+    <div class="feat"><div class="ic">🎥</div><h3>Dual-cam recording</h3><p>Front and back cameras capture simultaneously to a single, shareable video.</p></div>
+    <div class="feat"><div class="ic">🐟</div><h3>Fisheye & effects</h3><p>Wide fisheye, screen-light flash, warm/cool tints, and lens blur — baked right into your recording.</p></div>
+    <div class="feat"><div class="ic">📱</div><h3>Your layout</h3><p>Export as split-screen, side-by-side, or picture-in-picture — you choose which camera is big.</p></div>
+    <div class="feat"><div class="ic">📸</div><h3>Snap mid-record</h3><p>Grab a photo of both cameras at once without stopping your video.</p></div>
+    <div class="feat"><div class="ic">🙌</div><h3>Hands-free start</h3><p>Prop up your phone and raise a hand — TouCam counts down and starts rolling.</p></div>
+    <div class="feat"><div class="ic">🔄</div><h3>Landscape mode</h3><p>Rotate for a side-by-side view, perfect for watching the big screen with a friend.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>How to get it</h2>
+  <p class="lead">TouCam is in open beta through Apple's TestFlight (it's not on the App Store yet). Here's the one-minute setup:</p>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><p><b>Tap “Join the free beta”</b> on your iPhone.</p></div>
+    <div class="step"><div class="num">2</div><p><b>Install “TestFlight”</b> if asked — it's Apple's free app for trying betas. The link takes you there.</p></div>
+    <div class="step"><div class="num">3</div><p><b>Tap “Install” on TouCam</b> in TestFlight — it lands on your home screen like any app.</p></div>
+    <div class="step"><div class="num">4</div><p><b>Open it and hit record.</b> Point it at your face and the moment. Long-press the record button for effects.</p></div>
+  </div>
+  <div class="center" style="margin-top:30px;">
+    <a class="btn big" href="https://testflight.apple.com/join/KgprnYKC">Get started →</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  Made with 🦜 &nbsp;·&nbsp; <a href="https://theaiguide.fyi/toucam-privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="https://theaiguide.fyi/toucam-support.html">Support</a><br/>
+  © 2026 TouCam
+</div></footer>
+</body>
+</html>
