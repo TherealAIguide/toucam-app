@@ -74,6 +74,33 @@
     opacity:calc(var(--lit,0)); animation:gradFlow 7s linear infinite; }
   .finale .center{ position:relative; z-index:1; }
   @keyframes gradFlow{ 0%{ background-position:0% 50%; } 100%{ background-position:300% 50%; } }
+  /* waitlist "beta is full" modal */
+  .wl-overlay{ position:fixed; inset:0; z-index:200; background:rgba(6,8,12,.74); backdrop-filter:blur(7px);
+    display:flex; align-items:center; justify-content:center; padding:22px; opacity:0; pointer-events:none; transition:.3s; }
+  .wl-overlay.open{ opacity:1; pointer-events:auto; }
+  .wl-card{ position:relative; width:min(460px,94vw); border-radius:24px; padding:36px 30px 28px; background:#12151f; text-align:center;
+    box-shadow:0 30px 80px rgba(0,0,0,.6), 0 0 50px rgba(46,217,242,.16); transform:translateY(16px) scale(.97); transition:.38s cubic-bezier(.2,.9,.3,1); }
+  .wl-overlay.open .wl-card{ transform:none; }
+  .wl-card::before{ content:""; position:absolute; inset:0; border-radius:24px; padding:2.5px; pointer-events:none;
+    background:linear-gradient(120deg,#2ed9f2,#8a5bff,#f240b2,#ffb81a,#2ed9f2); background-size:300% 300%;
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor;
+    mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite:exclude; animation:gradFlow 7s linear infinite; }
+  .wl-close{ position:absolute; top:10px; right:14px; width:32px; height:32px; border:none; background:transparent; color:#8a93a5; font-size:1.5rem; line-height:1; cursor:pointer; transition:.2s; }
+  .wl-close:hover{ color:#fff; }
+  .wl-badge{ display:inline-block; font-size:.66rem; letter-spacing:2px; text-transform:uppercase; font-weight:800; color:#ff5bd0;
+    border:1px solid rgba(242,64,178,.5); border-radius:100px; padding:4px 12px; margin-bottom:14px; text-shadow:0 0 8px rgba(255,91,208,.7); }
+  .wl-emoji{ font-size:2.5rem; line-height:1; }
+  .wl-card h3{ font-size:1.5rem; margin:10px 0 8px; }
+  .wl-card p{ color:var(--mut); font-size:.95rem; margin:0 auto 20px; max-width:350px; line-height:1.55; }
+  .wl-form{ display:flex; gap:8px; max-width:400px; margin:0 auto; }
+  .wl-input{ flex:1; min-width:0; background:#0d1017; border:1px solid var(--line); border-radius:12px; padding:13px 14px; color:#fff; font-size:.95rem; transition:.2s; }
+  .wl-input::placeholder{ color:#5b616e; }
+  .wl-input:focus{ outline:none; border-color:rgba(46,217,242,.6); box-shadow:0 0 0 3px rgba(46,217,242,.15); }
+  .wl-btn{ background:var(--amber); color:#111; font-weight:800; border:none; border-radius:12px; padding:13px 18px; cursor:pointer; white-space:nowrap; transition:.2s; }
+  .wl-btn:hover{ filter:brightness(1.06); } .wl-btn:disabled{ opacity:.6; cursor:default; }
+  .wl-fine{ margin-top:14px; font-size:.75rem; color:#5b616e; }
+  .wl-success{ display:none; } .wl-card.done .wl-form, .wl-card.done .wl-sub, .wl-card.done .wl-emoji, .wl-card.done .wl-badge, .wl-card.done h3{ display:none; }
+  .wl-card.done .wl-success{ display:block; }
   footer{ border-top:1px solid var(--line); padding:34px 0; text-align:center; color:#5b616e; font-size:.85rem; }
   footer a{ color:#6fd0e6; text-decoration:none; }
   /* buttons — flair + neon */
@@ -313,6 +340,26 @@
   © 2026 TouCam
 </div></footer>
 
+<div class="wl-overlay" id="wl">
+  <div class="wl-card" id="wlcard">
+    <button class="wl-close" id="wlclose" aria-label="Close">×</button>
+    <span class="wl-badge">Round 1 · Full</span>
+    <div class="wl-emoji">🦜</div>
+    <h3>The beta's at capacity</h3>
+    <p class="wl-sub">TouCam's first tester round filled up fast. Drop your email and you'll be first in line the moment a spot opens — usually within a day.</p>
+    <form class="wl-form" id="wlform">
+      <input class="wl-input" id="wlemail" type="email" required placeholder="you@email.com" autocomplete="email" />
+      <button class="wl-btn" type="submit">Notify me</button>
+    </form>
+    <div class="wl-fine">No spam — one email when your spot's ready.</div>
+    <div class="wl-success">
+      <div class="wl-emoji">✅</div>
+      <h3>You're on the list</h3>
+      <p>We'll email you the second a TestFlight spot frees up. Thanks for the patience — it won't be long. 🦜</p>
+    </div>
+  </div>
+</div>
+
 <a class="toucan-float" href="https://testflight.apple.com/join/KgprnYKC" aria-label="Join the TouCam beta">
   <span class="tf-tip">Try TouCam</span>
   <span class="tf-shadow"></span>
@@ -431,6 +478,39 @@
     window.addEventListener('resize', onScroll, {passive:true});
     litUpdate();
   }
+})();
+</script>
+
+<script>
+(function(){
+  // Paste your Google Apps Script Web App URL between the quotes to log signups straight to your Sheet.
+  var WL_ENDPOINT = "";
+  var FOUNDER_EMAIL = "mediamarketmike@gmail.com";
+  var wl=document.getElementById('wl'), card=document.getElementById('wlcard');
+  if(!wl) return;
+  function openWL(){ wl.classList.add('open'); setTimeout(function(){ var e=document.getElementById('wlemail'); if(e) e.focus(); },320); }
+  function closeWL(){ wl.classList.remove('open'); }
+  // intercept every "Join the beta" button that points at TestFlight
+  document.querySelectorAll('a[href*="testflight.apple.com"]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); openWL(); });
+  });
+  document.getElementById('wlclose').addEventListener('click', closeWL);
+  wl.addEventListener('click', function(e){ if(e.target===wl) closeWL(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeWL(); });
+  document.getElementById('wlform').addEventListener('submit', function(e){
+    e.preventDefault();
+    var email=(document.getElementById('wlemail').value||'').trim(); if(!email) return;
+    var btn=e.target.querySelector('.wl-btn'); btn.disabled=true; btn.textContent='Adding…';
+    function done(){ card.classList.add('done'); }
+    if(WL_ENDPOINT){
+      fetch(WL_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body:JSON.stringify({email:email, ts:new Date().toISOString(), source:'toucam.app'})}).then(done).catch(done);
+    } else {
+      // stopgap until the Sheet is wired: send the lead straight to your inbox
+      try{ window.location.href='mailto:'+FOUNDER_EMAIL+'?subject='+encodeURIComponent('TouCam beta waitlist')+'&body='+encodeURIComponent('Add me to the TouCam waitlist: '+email); }catch(err){}
+      done();
+    }
+  });
 })();
 </script>
 </body>
