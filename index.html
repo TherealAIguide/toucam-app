@@ -87,19 +87,19 @@
     filter:drop-shadow(0 4px 7px rgba(0,0,0,.45)); transition:.3s cubic-bezier(.3,1.4,.5,1); }
   .cta-toucan:hover .cta-tou{ transform:translateY(-4px) rotate(-3deg); }
   /* floating toucan mascot */
-  .toucan-float{ position:fixed; right:24px; bottom:0; z-index:60; display:block; width:104px; text-decoration:none;
+  .toucan-float{ position:fixed; left:24px; bottom:0; z-index:60; display:block; width:104px; text-decoration:none;
     animation:bob 3.6s ease-in-out infinite; }
   .toucan-float img{ width:100%; display:block;
     filter:drop-shadow(0 0 12px rgba(46,217,242,.6)) drop-shadow(0 0 26px rgba(46,217,242,.32)); transition:.3s; }
   .toucan-float .tf-shadow{ position:absolute; left:50%; bottom:8px; transform:translateX(-50%); width:74px; height:15px; border-radius:50%;
     background:radial-gradient(ellipse, rgba(46,217,242,.45), transparent 70%); filter:blur(3px); z-index:-1; }
-  .toucan-float .tf-tip{ position:absolute; right:96%; bottom:44px; white-space:nowrap; opacity:0; transform:translateX(8px);
+  .toucan-float .tf-tip{ position:absolute; left:60%; bottom:50px; white-space:nowrap; opacity:0; transform:translateX(-8px);
     background:rgba(10,12,18,.94); color:#8af0ff; border:1px solid rgba(46,217,242,.5); border-radius:10px; padding:7px 12px;
     font-weight:800; font-size:.85rem; text-shadow:0 0 8px rgba(46,217,242,.6); box-shadow:0 0 16px rgba(46,217,242,.3); transition:.25s; }
   .toucan-float:hover .tf-tip{ opacity:1; transform:translateX(0); }
   .toucan-float:hover img{ filter:drop-shadow(0 0 18px rgba(46,217,242,.95)) drop-shadow(0 0 36px rgba(46,217,242,.5)); }
   @keyframes bob{ 0%,100%{ transform:translateY(7px); } 50%{ transform:translateY(-5px); } }
-  @media(max-width:560px){ .toucan-float{ width:76px; right:12px; } .cta-tou{ height:64px; margin:-22px 4px -14px 0; } }
+  @media(max-width:560px){ .toucan-float{ width:76px; left:12px; } .cta-tou{ height:64px; margin:-22px 4px -14px 0; } }
   .heroimg{ width:264px; max-width:82%; border-radius:34px; margin-top:44px;
     box-shadow:0 30px 80px rgba(0,0,0,.55), 0 0 70px rgba(46,217,242,.10); }
   /* ===== showcase carousel ===== */
@@ -147,10 +147,13 @@
   .scap h3{ margin:0 0 3px; font-size:1.15rem; }
   .scap p{ margin:0; color:var(--mut); font-size:.92rem; }
   .scap .hint{ display:inline-block; margin-top:8px; font-size:.7rem; letter-spacing:2px; text-transform:uppercase; color:#ff5bd0; text-shadow:0 0 8px rgba(255,91,208,.7); }
-  .snav{ display:flex; gap:16px; justify-content:center; margin-top:14px; }
-  .snav button{ width:44px; height:44px; border-radius:50%; border:1.5px solid rgba(46,217,242,.5); background:transparent; color:#8af0ff;
-    font-size:1.1rem; cursor:pointer; box-shadow:0 0 12px rgba(46,217,242,.3), inset 0 0 8px rgba(46,217,242,.12); transition:.2s; }
-  .snav button:hover{ box-shadow:0 0 20px rgba(46,217,242,.7), inset 0 0 12px rgba(46,217,242,.25); color:#c8f8ff; }
+  .snav-btn{ position:absolute; top:50%; transform:translateY(-50%); z-index:20; width:48px; height:48px; border-radius:50%;
+    border:1.5px solid rgba(46,217,242,.5); background:rgba(13,15,20,.55); backdrop-filter:blur(4px); color:#8af0ff; font-size:1.25rem; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; box-shadow:0 0 12px rgba(46,217,242,.3), inset 0 0 8px rgba(46,217,242,.12); transition:.2s; }
+  .snav-btn:hover{ box-shadow:0 0 20px rgba(46,217,242,.75), inset 0 0 12px rgba(46,217,242,.25); color:#c8f8ff; }
+  #prev{ left:calc(50% - 188px); } #next{ right:calc(50% - 188px); }
+  .stage{ touch-action:pan-y; }
+  @media(max-width:640px){ .snav-btn{ display:none; } }
   .dots{ display:flex; gap:8px; justify-content:center; margin-top:16px; }
   .dots i{ width:8px; height:8px; border-radius:50%; background:#2a3040; cursor:pointer; transition:.25s; }
   .dots i.on{ background:#2ed9f2; box-shadow:0 0 10px rgba(46,217,242,.9); width:22px; border-radius:5px; }
@@ -182,12 +185,12 @@
 <section class="showcase"><div class="wrap">
   <h2>One app, every moment</h2>
   <p class="lead">Spin through real scenarios — hover the phone to see which effects are doing the work.</p>
-  <div class="stage"><div class="track" id="track"></div></div>
-  <div class="scap" id="scap"></div>
-  <div class="snav">
-    <button id="prev" aria-label="Previous">‹</button>
-    <button id="next" aria-label="Next">›</button>
+  <div class="stage" id="stage">
+    <div class="track" id="track"></div>
+    <button class="snav-btn" id="prev" aria-label="Previous">‹</button>
+    <button class="snav-btn" id="next" aria-label="Next">›</button>
   </div>
+  <div class="scap" id="scap"></div>
   <div class="dots" id="dots"></div>
 </div></section>
 
@@ -261,7 +264,6 @@
     var inner='<div class="frame"><div class="island"></div>';
     if(c.ph){
       inner+='<div class="ph" style="--t:'+c.t+';--b:'+c.b+'">'+
-             '<span class="ph-lbl tp">Front</span><span class="ph-lbl bt">Back</span>'+
              '<div class="ph-fg"><div class="em">'+c.em+'</div><div class="pt">'+c.title+'</div>'+
              '<div class="pd">'+c.cap+'</div><div class="chip">'+c.chip+'</div>'+
              '<div class="soon">Shot coming soon</div></div></div>';
@@ -296,8 +298,15 @@
     scap.innerHTML='<h3>'+c.title+'</h3><p>'+c.cap+'</p>'+(c.ph?'':'<span class="hint">Hover the phone to see the effects</span>');
     dotsW.querySelectorAll('i').forEach(function(d,i){ d.className=i===active?'on':''; });
   }
-  document.getElementById('next').addEventListener('click',function(){active=(active+1)%CARDS.length;render();});
-  document.getElementById('prev').addEventListener('click',function(){active=(active-1+CARDS.length)%CARDS.length;render();});
+  function go(dir){ active=(active+dir+CARDS.length)%CARDS.length; render(); }
+  document.getElementById('next').addEventListener('click',function(){go(1);});
+  document.getElementById('prev').addEventListener('click',function(){go(-1);});
+  // swipe (touch) support
+  var stage=document.getElementById('stage'), sx=0, sy=0, sw=false;
+  stage.addEventListener('touchstart',function(e){ var t=e.changedTouches[0]; sx=t.clientX; sy=t.clientY; sw=true; },{passive:true});
+  stage.addEventListener('touchend',function(e){ if(!sw)return; sw=false; var t=e.changedTouches[0];
+    var dx=t.clientX-sx, dy=t.clientY-sy;
+    if(Math.abs(dx)>40 && Math.abs(dx)>Math.abs(dy)) go(dx<0?1:-1); },{passive:true});
   render();
 })();
 </script>
