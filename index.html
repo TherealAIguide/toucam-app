@@ -99,8 +99,11 @@
   .wl-btn{ background:var(--amber); color:#111; font-weight:800; border:none; border-radius:12px; padding:13px 18px; cursor:pointer; white-space:nowrap; transition:.2s; }
   .wl-btn:hover{ filter:brightness(1.06); } .wl-btn:disabled{ opacity:.6; cursor:default; }
   .wl-fine{ margin-top:14px; font-size:.75rem; color:#5b616e; }
-  .wl-success{ display:none; } .wl-card.done .wl-form, .wl-card.done .wl-sub, .wl-card.done .wl-emoji, .wl-card.done .wl-badge, .wl-card.done h3{ display:none; }
-  .wl-card.done .wl-success{ display:block; }
+  .wl-skip{ display:inline-block; margin-top:14px; font-size:.82rem; color:#6fd0e6; text-decoration:none; opacity:.9; transition:.2s; }
+  .wl-skip:hover{ opacity:1; text-shadow:0 0 10px rgba(46,217,242,.55); }
+  .wl-go{ display:inline-block; margin-top:8px; text-decoration:none; }
+  .wl-success{ display:none; }
+  .wl-card.done .wl-main{ display:none; } .wl-card.done .wl-success{ display:block; }
   footer{ border-top:1px solid var(--line); padding:34px 0; text-align:center; color:#5b616e; font-size:.85rem; }
   footer a{ color:#6fd0e6; text-decoration:none; }
   /* buttons — flair + neon */
@@ -343,19 +346,23 @@
 <div class="wl-overlay" id="wl">
   <div class="wl-card" id="wlcard">
     <button class="wl-close" id="wlclose" aria-label="Close">×</button>
-    <span class="wl-badge">Round 1 · Full</span>
-    <div class="wl-emoji">🦜</div>
-    <h3>The beta's at capacity</h3>
-    <p class="wl-sub">TouCam's first tester round filled up fast. Drop your email and you'll be first in line the moment a spot opens — usually within a day.</p>
-    <form class="wl-form" id="wlform">
-      <input class="wl-input" id="wlemail" type="email" required placeholder="you@email.com" autocomplete="email" />
-      <button class="wl-btn" type="submit">Notify me</button>
-    </form>
-    <div class="wl-fine">No spam — one email when your spot's ready.</div>
+    <div class="wl-main">
+      <span class="wl-badge">Round 1 · Full</span>
+      <div class="wl-emoji">🦜</div>
+      <h3>The beta's at capacity</h3>
+      <p class="wl-sub">TouCam's first tester round filled up fast. Drop your email and you'll be first in line the moment a spot opens — usually within a day.</p>
+      <form class="wl-form" id="wlform">
+        <input class="wl-input" id="wlemail" type="email" required placeholder="you@email.com" autocomplete="email" />
+        <button class="wl-btn" type="submit">Notify me</button>
+      </form>
+      <div class="wl-fine">No spam — just one email when your spot opens.</div>
+      <a class="wl-skip" href="https://testflight.apple.com/join/KgprnYKC">Rather keep an eye on it yourself? Check the TestFlight status →</a>
+    </div>
     <div class="wl-success">
       <div class="wl-emoji">✅</div>
       <h3>You're on the list</h3>
-      <p>We'll email you the second a TestFlight spot frees up. Thanks for the patience — it won't be long. 🦜</p>
+      <p>We'll email you the second a spot frees up. Want to see how packed it is? Take a peek at the live TestFlight status.</p>
+      <a class="wl-btn wl-go" href="https://testflight.apple.com/join/KgprnYKC">Continue to TestFlight →</a>
     </div>
   </div>
 </div>
@@ -492,6 +499,7 @@
   function closeWL(){ wl.classList.remove('open'); }
   // intercept every "Join the beta" button that points at TestFlight
   document.querySelectorAll('a[href*="testflight.apple.com"]').forEach(function(a){
+    if(a.closest('.wl-overlay')) return; // let the modal's own Continue/Check links through
     a.addEventListener('click', function(e){ e.preventDefault(); openWL(); });
   });
   document.getElementById('wlclose').addEventListener('click', closeWL);
@@ -505,11 +513,7 @@
     if(WL_ENDPOINT){
       fetch(WL_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
         body:JSON.stringify({email:email, ts:new Date().toISOString(), source:'toucam.app'})}).then(done).catch(done);
-    } else {
-      // stopgap until the Sheet is wired: send the lead straight to your inbox
-      try{ window.location.href='mailto:'+FOUNDER_EMAIL+'?subject='+encodeURIComponent('TouCam beta waitlist')+'&body='+encodeURIComponent('Add me to the TouCam waitlist: '+email); }catch(err){}
-      done();
-    }
+    } else { done(); }
   });
 })();
 </script>
