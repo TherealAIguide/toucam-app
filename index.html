@@ -11,9 +11,7 @@
 <style>
   :root{ color-scheme:dark; --amber:#ffb04c; --bg:#0d0f14; --card:#151823; --line:#232838; --mut:#9aa3b2; }
   *{ box-sizing:border-box; }
-  html{ scroll-snap-type:y proximity; scroll-padding-top:66px; scroll-behavior:smooth; }
   body{ margin:0; background:var(--bg); color:#e7e9ee; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif; line-height:1.6; }
-  .showcase-hero, .showcase, section:has(.feats){ scroll-snap-align:center; scroll-margin-top:66px; }
   a{ color:inherit; }
   .wrap{ max-width:980px; margin:0 auto; padding:0 22px; }
   /* header */
@@ -65,6 +63,17 @@
   .num{ flex:0 0 32px; height:32px; border-radius:50%; background:var(--amber); color:#111; font-weight:800; display:flex; align-items:center; justify-content:center; }
   .step b{ color:#fff; } .step p{ margin:0; color:#c7ccd8; }
   .center{ text-align:center; }
+  /* final CTA — scroll-reactive neon iris border */
+  .get{ overflow:visible; }
+  .finale{ position:relative; border-radius:26px; padding:46px 32px; background:#12151f;
+    box-shadow:0 0 calc(var(--lit,0) * 34px) rgba(46,217,242,.32), 0 0 calc(var(--lit,0) * 70px) rgba(242,64,178,.2); }
+  .finale::before{ content:""; position:absolute; inset:0; border-radius:26px; padding:3px; pointer-events:none;
+    background:linear-gradient(120deg,#2ed9f2,#8a5bff,#f240b2,#ffb81a,#2ed9f2); background-size:300% 300%;
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor;
+    mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite:exclude;
+    opacity:calc(var(--lit,0)); animation:gradFlow 7s linear infinite; }
+  .finale .center{ position:relative; z-index:1; }
+  @keyframes gradFlow{ 0%{ background-position:0% 50%; } 100%{ background-position:300% 50%; } }
   footer{ border-top:1px solid var(--line); padding:34px 0; text-align:center; color:#5b616e; font-size:.85rem; }
   footer a{ color:#6fd0e6; text-decoration:none; }
   /* buttons — flair + neon */
@@ -110,7 +119,7 @@
   .toucan-float:hover .tf-tip{ opacity:1; transform:translateX(0); }
   .toucan-float:hover img{ filter:drop-shadow(0 0 18px rgba(46,217,242,.95)) drop-shadow(0 0 36px rgba(46,217,242,.5)); }
   @keyframes bob{ 0%,100%{ transform:translateY(7px); } 50%{ transform:translateY(-5px); } }
-  @media(max-width:560px){ .toucan-float{ width:76px; left:12px; } .cta-tou{ height:64px; margin:-22px 4px -14px 0; } }
+  @media(max-width:560px){ .toucan-float{ width:76px; left:12px; } .cta-tou{ height:64px; margin:-22px -30px -14px -2px; } }
   .heroimg{ width:264px; max-width:82%; border-radius:34px; margin-top:44px;
     box-shadow:0 30px 80px rgba(0,0,0,.55), 0 0 70px rgba(46,217,242,.10); }
   /* ===== interactive React·Capture·Share hero ===== */
@@ -163,10 +172,10 @@
     .showcase-hero.share .sx.x{ transform:translate(-8px,60px) scale(1); }
   }
   /* ===== showcase carousel ===== */
-  .showcase{ overflow:hidden; padding:40px 0; }
-  .stage{ position:relative; height:520px; perspective:1600px; margin:22px auto 6px; max-width:920px; }
+  .showcase{ overflow:hidden; }
+  .stage{ position:relative; height:600px; perspective:1600px; margin:26px auto 6px; max-width:920px; }
   .track{ position:absolute; inset:0; transform-style:preserve-3d; }
-  .cardw{ position:absolute; top:50%; left:50%; width:228px; height:484px; margin:-242px 0 0 -114px;
+  .cardw{ position:absolute; top:50%; left:50%; width:250px; height:530px; margin:-265px 0 0 -125px;
     transition:transform .6s cubic-bezier(.2,.7,.2,1), opacity .6s, filter .6s; cursor:pointer; }
   .cardw .frame{ width:100%; height:100%; border-radius:34px; border:9px solid #0a0a0c; overflow:hidden;
     background:#000; box-shadow:0 26px 60px rgba(0,0,0,.6); position:relative; }
@@ -218,7 +227,7 @@
   .dots{ display:flex; gap:8px; justify-content:center; margin-top:16px; }
   .dots i{ width:8px; height:8px; border-radius:50%; background:#2a3040; cursor:pointer; transition:.25s; }
   .dots i.on{ background:#2ed9f2; box-shadow:0 0 10px rgba(46,217,242,.9); width:22px; border-radius:5px; }
-  @media(max-width:560px){ .stage{ height:452px; } .cardw{ width:192px; height:408px; margin:-204px 0 0 -96px; } }
+  @media(max-width:560px){ .stage{ height:520px; } .cardw{ width:210px; height:446px; margin:-223px 0 0 -105px; } }
 </style>
 </head>
 <body>
@@ -283,17 +292,19 @@
   </div>
 </div></section>
 
-<section><div class="wrap">
-  <h2>How to get it</h2>
-  <p class="lead">TouCam is in open beta through Apple's TestFlight (it's not on the App Store yet). Here's the one-minute setup:</p>
-  <div class="steps">
-    <div class="step"><div class="num">1</div><p><b>Tap “Join the free beta”</b> on your iPhone.</p></div>
-    <div class="step"><div class="num">2</div><p><b>Install “TestFlight”</b> if asked — it's Apple's free app for trying betas. The link takes you there.</p></div>
-    <div class="step"><div class="num">3</div><p><b>Tap “Install” on TouCam</b> in TestFlight — it lands on your home screen like any app.</p></div>
-    <div class="step"><div class="num">4</div><p><b>Open it and hit record.</b> Point it at your face and the moment. Long-press the record button for effects.</p></div>
-  </div>
-  <div class="center" style="margin-top:30px;">
-    <a class="btn big" href="https://testflight.apple.com/join/KgprnYKC">Get started →</a>
+<section class="get"><div class="wrap">
+  <div class="finale" id="finale">
+    <h2>How to get it</h2>
+    <p class="lead">TouCam is in open beta through Apple's TestFlight (it's not on the App Store yet). Here's the one-minute setup:</p>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><p><b>Tap “Join the free beta”</b> on your iPhone.</p></div>
+      <div class="step"><div class="num">2</div><p><b>Install “TestFlight”</b> if asked — it's Apple's free app for trying betas. The link takes you there.</p></div>
+      <div class="step"><div class="num">3</div><p><b>Tap “Install” on TouCam</b> in TestFlight — it lands on your home screen like any app.</p></div>
+      <div class="step"><div class="num">4</div><p><b>Open it and hit record.</b> Point it at your face and the moment. Long-press the record button for effects.</p></div>
+    </div>
+    <div class="center" style="margin-top:30px;">
+      <a class="btn big" href="https://testflight.apple.com/join/KgprnYKC">Get started →</a>
+    </div>
   </div>
 </div></section>
 
@@ -401,6 +412,25 @@
         var on=sh.classList.contains(w); sh.classList.remove('react','capture','share'); if(!on) sh.classList.add(w); });
     }
   });
+
+  // final CTA: brighten the neon border as it nears the middle of the viewport
+  var fin=document.getElementById('finale');
+  if(fin){
+    var raf=null;
+    function litUpdate(){
+      raf=null;
+      var r=fin.getBoundingClientRect(), vh=window.innerHeight||1;
+      var center=r.top + r.height/2;
+      var dist=Math.abs(center - vh/2);
+      var t=1 - dist/(vh*0.75);
+      t=Math.max(0, Math.min(1, t));
+      fin.style.setProperty('--lit', t.toFixed(3));
+    }
+    function onScroll(){ if(!raf) raf=requestAnimationFrame(litUpdate); }
+    window.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('resize', onScroll, {passive:true});
+    litUpdate();
+  }
 })();
 </script>
 </body>
