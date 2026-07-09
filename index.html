@@ -69,14 +69,16 @@
   .neonline{ display:inline-block; margin-top:14px; font-size:.82rem; letter-spacing:4px; text-transform:uppercase;
     color:#ff5bd0; text-shadow:0 0 8px rgba(255,91,208,.95), 0 0 18px rgba(46,217,242,.45); }
   /* toucan-on-a-branch beta button */
-  .beta-branch{ position:relative; display:inline-flex; align-items:flex-end; gap:6px; text-decoration:none; padding:6px 4px 14px; cursor:pointer; }
-  .bb-text{ font-weight:800; font-size:1.08rem; color:#8af0ff; letter-spacing:.2px; line-height:1;
-    text-shadow:0 0 10px rgba(46,217,242,.75); transition:.25s; }
-  .bb-toucan{ height:54px; width:auto; margin-bottom:-3px; filter:drop-shadow(0 0 7px rgba(46,217,242,.5)); transition:.3s cubic-bezier(.3,1.4,.5,1); }
+  .beta-branch{ position:relative; display:inline-flex; align-items:flex-end; gap:9px; text-decoration:none; padding:18px 4px 14px; cursor:pointer; }
+  .bb-text{ font-weight:800; font-size:1.35rem; color:#8af0ff; letter-spacing:.2px; line-height:1;
+    text-shadow:0 0 12px rgba(46,217,242,.85); transition:.25s; }
+  .bb-toucan{ height:50px; width:auto; margin-bottom:-3px;
+    filter:drop-shadow(0 0 11px rgba(46,217,242,.8)) drop-shadow(0 0 22px rgba(46,217,242,.45)); transition:.3s cubic-bezier(.3,1.4,.5,1); }
   .bb-line{ position:absolute; left:2px; right:2px; bottom:8px; height:2.5px; border-radius:3px;
     background:linear-gradient(90deg, rgba(46,217,242,0), #2ed9f2 18%, #2ed9f2 82%, rgba(46,217,242,0));
     box-shadow:0 0 10px rgba(46,217,242,.9), 0 0 20px rgba(46,217,242,.5); transition:.25s; }
-  .beta-branch:hover .bb-toucan{ transform:translateY(-3px) rotate(-4deg); filter:drop-shadow(0 0 10px rgba(46,217,242,.9)); }
+  .beta-branch:hover .bb-toucan{ transform:translateY(-3px) rotate(-4deg);
+    filter:drop-shadow(0 0 15px rgba(46,217,242,1)) drop-shadow(0 0 30px rgba(46,217,242,.6)); }
   .beta-branch:hover .bb-text{ color:#d8faff; }
   .beta-branch:hover .bb-line{ box-shadow:0 0 16px rgba(46,217,242,1), 0 0 30px rgba(46,217,242,.7); }
   .heroimg{ width:264px; max-width:82%; border-radius:34px; margin-top:44px;
