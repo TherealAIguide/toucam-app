@@ -68,6 +68,17 @@
     text-shadow:0 0 10px rgba(242,64,178,.85), 0 0 20px rgba(46,217,242,.4); box-shadow:0 0 18px rgba(242,64,178,.22); }
   .neonline{ display:inline-block; margin-top:14px; font-size:.82rem; letter-spacing:4px; text-transform:uppercase;
     color:#ff5bd0; text-shadow:0 0 8px rgba(255,91,208,.95), 0 0 18px rgba(46,217,242,.45); }
+  /* toucan-on-a-branch beta button */
+  .beta-branch{ position:relative; display:inline-flex; align-items:flex-end; gap:6px; text-decoration:none; padding:6px 4px 14px; cursor:pointer; }
+  .bb-text{ font-weight:800; font-size:1.08rem; color:#8af0ff; letter-spacing:.2px; line-height:1;
+    text-shadow:0 0 10px rgba(46,217,242,.75); transition:.25s; }
+  .bb-toucan{ width:46px; height:44px; margin-bottom:-2px; filter:drop-shadow(0 0 6px rgba(46,217,242,.55)); transition:.3s cubic-bezier(.3,1.4,.5,1); }
+  .bb-line{ position:absolute; left:2px; right:2px; bottom:8px; height:2.5px; border-radius:3px;
+    background:linear-gradient(90deg, rgba(46,217,242,0), #2ed9f2 18%, #2ed9f2 82%, rgba(46,217,242,0));
+    box-shadow:0 0 10px rgba(46,217,242,.9), 0 0 20px rgba(46,217,242,.5); transition:.25s; }
+  .beta-branch:hover .bb-toucan{ transform:translateY(-3px) rotate(-4deg); filter:drop-shadow(0 0 10px rgba(46,217,242,.9)); }
+  .beta-branch:hover .bb-text{ color:#d8faff; }
+  .beta-branch:hover .bb-line{ box-shadow:0 0 16px rgba(46,217,242,1), 0 0 30px rgba(46,217,242,.7); }
   .heroimg{ width:264px; max-width:82%; border-radius:34px; margin-top:44px;
     box-shadow:0 30px 80px rgba(0,0,0,.55), 0 0 70px rgba(46,217,242,.10); }
   /* ===== showcase carousel ===== */
@@ -80,9 +91,19 @@
     background:#000; box-shadow:0 26px 60px rgba(0,0,0,.6); position:relative; }
   .cardw .frame img{ width:100%; height:100%; object-fit:cover; display:block; }
   .cardw .island{ position:absolute; top:9px; left:50%; transform:translateX(-50%); width:66px; height:13px; border-radius:10px; background:#000; z-index:6; }
-  /* placeholder card */
-  .ph{ width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:22px;
-    background:radial-gradient(120% 90% at 50% 12%, #1a2233 0%, #0c0e15 70%); }
+  /* placeholder card — faux split-screen dual-cam */
+  .ph{ position:relative; width:100%; height:100%; overflow:hidden;
+    background:linear-gradient(180deg, var(--t,#1a2233) 0 50%, var(--b,#0c0e15) 50% 100%); }
+  .ph::before{ content:''; position:absolute; inset:0; z-index:1;
+    background:radial-gradient(70% 45% at 50% 26%, rgba(255,255,255,.10), transparent 60%),
+               radial-gradient(80% 45% at 50% 76%, rgba(255,255,255,.06), transparent 62%); }
+  .ph::after{ content:''; position:absolute; left:0; right:0; top:50%; height:2px; transform:translateY(-1px); z-index:2;
+    background:repeating-linear-gradient(90deg,#ffb04c 0 7px, transparent 7px 13px); opacity:.45; }
+  .ph .ph-lbl{ position:absolute; left:10px; z-index:3; font-size:.58rem; font-weight:700; letter-spacing:.3px; color:#e7edf6;
+    background:rgba(0,0,0,.45); padding:3px 8px; border-radius:8px; }
+  .ph .ph-lbl.tp{ top:12px; } .ph .ph-lbl.bt{ top:calc(50% + 10px); }
+  .ph .ph-fg{ position:absolute; inset:0; z-index:4; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:22px;
+    background:radial-gradient(85% 65% at 50% 50%, rgba(8,10,16,.45), rgba(8,10,16,.72)); }
   .ph .em{ font-size:2.4rem; margin-bottom:10px; filter:drop-shadow(0 0 10px rgba(46,217,242,.5)); }
   .ph .pt{ font-weight:800; font-size:1.05rem; margin-bottom:6px; }
   .ph .pd{ font-size:.8rem; color:var(--mut); line-height:1.4; }
@@ -118,7 +139,28 @@
 <body>
 <header><div class="wrap hrow">
   <div class="brand"><span class="iris"><span class="dot"></span></span> TouCam</div>
-  <a class="btn neon" href="https://testflight.apple.com/join/KgprnYKC">Join beta</a>
+  <a class="beta-branch" href="https://testflight.apple.com/join/KgprnYKC" aria-label="Join the TouCam beta">
+    <span class="bb-text">Join beta</span>
+    <svg class="bb-toucan" viewBox="0 0 64 60" aria-hidden="true">
+      <defs>
+        <linearGradient id="beak" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffcf3a"/><stop offset=".5" stop-color="#ff8a3c"/><stop offset="1" stop-color="#f240b2"/>
+        </linearGradient>
+        <linearGradient id="iris2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#2ed9f2"/><stop offset=".5" stop-color="#f240b2"/><stop offset="1" stop-color="#ffb81a"/>
+        </linearGradient>
+      </defs>
+      <path d="M30 42 L27 56 M40 42 L43 56" stroke="#2ed9f2" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+      <path d="M22 56 h10 M38 56 h10" stroke="#2ed9f2" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+      <path d="M56 30 C 63 27, 64 35, 58 41 C 55 37, 54 34, 54 31 Z" fill="#14181f"/>
+      <ellipse cx="38" cy="28" rx="16" ry="15" fill="#eef2f8"/>
+      <path d="M40 13 C 51 14, 55 25, 52 35 C 50 23, 44 17, 33 17 C 35 14, 37 13, 40 13 Z" fill="#14181f"/>
+      <path d="M26 24 C 5 19, 1 31, 25 34 C 26 31, 27 27, 26 24 Z" fill="url(#beak)" stroke="#0d0f14" stroke-width="1"/>
+      <path d="M25 30 C 16 30, 10 30, 6 30" stroke="#0d0f14" stroke-width=".8" fill="none" opacity=".5"/>
+      <circle cx="30" cy="23" r="4.6" fill="url(#iris2)"/><circle cx="30" cy="23" r="1.6" fill="#fff"/>
+    </svg>
+    <span class="bb-line"></span>
+  </a>
 </div></header>
 
 <div class="wrap">
@@ -191,10 +233,16 @@
       pins:[ {x:17,y:10,s:'right',l:'Front · 1.0×'},
              {x:20,y:58,s:'right',l:'Back · 2.0× zoom'},
              {x:55,y:51,s:'left', l:'As-recorded split'} ] },
-    { ph:true, em:'🌙', title:'Night vlog', cap:'Face lit by the on-screen light bar; back cam on the city.', chip:'Screen Light' },
-    { ph:true, em:'🥾', title:'Trailhead, hands-free', cap:'Phone on a tripod — raise a hand and it starts rolling.', chip:'Wave to record' },
-    { ph:true, em:'📺', title:'Game day', cap:'Two friends side-by-side, back cam on the big screen.', chip:'Landscape' },
-    { ph:true, em:'🛹', title:'Skatepark', cap:'Wide fisheye on the trick, your reaction up top.', chip:'Fisheye' }
+    { ph:true, em:'🌙', title:'Night vlog', cap:'Face lit by the on-screen light bar; back cam on the city.', chip:'Screen Light', t:'#241f38', b:'#0b1a3a' },
+    { ph:true, em:'🥾', title:'Trailhead, hands-free', cap:'Phone on a tripod — raise a hand and it starts rolling.', chip:'Wave to record', t:'#332a20', b:'#1b3524' },
+    { ph:true, em:'📺', title:'Game day', cap:'Two friends side-by-side, back cam on the big screen.', chip:'Landscape', t:'#302617', b:'#122036' },
+    { ph:true, em:'🛹', title:'Skatepark', cap:'Wide fisheye on the trick, your reaction up top.', chip:'Fisheye', t:'#2a2b33', b:'#1c2028' },
+    { ph:true, em:'🎤', title:'Concert', cap:'Face lit by the stage; back cam on the show.', chip:'Low-light glow', t:'#2a1830', b:'#101033' },
+    { ph:true, em:'🍳', title:'Cooking along', cap:'Grab a photo of the dish without stopping the video.', chip:'Snap mid-record', t:'#33251a', b:'#241a12' },
+    { ph:true, em:'📦', title:'Unboxing', cap:'Your face in a bubble over the big reveal.', chip:'Picture-in-picture', t:'#232a33', b:'#2c2418' },
+    { ph:true, em:'🎣', title:'The catch', cap:'Proud grin up top, back cam zoomed on the fish.', chip:'2× zoom', t:'#2d2a1c', b:'#123040' },
+    { ph:true, em:'⛳', title:'Driving range', cap:'Tripod behind, hand-raise to roll, eyes on the fairway.', chip:'Gesture + landscape', t:'#2f2a1c', b:'#1f3a24' },
+    { ph:true, em:'🐾', title:'Pet antics', cap:'You cracking up, warm-toned back cam on the chaos.', chip:'Warm tint', t:'#33291c', b:'#2a2016' }
   ];
   var track=document.getElementById('track'), scap=document.getElementById('scap'),
       dotsW=document.getElementById('dots'), active=0, els=[];
@@ -203,9 +251,11 @@
     var w=document.createElement('div'); w.className='cardw';
     var inner='<div class="frame"><div class="island"></div>';
     if(c.ph){
-      inner+='<div class="ph"><div class="em">'+c.em+'</div><div class="pt">'+c.title+'</div>'+
+      inner+='<div class="ph" style="--t:'+c.t+';--b:'+c.b+'">'+
+             '<span class="ph-lbl tp">Front</span><span class="ph-lbl bt">Back</span>'+
+             '<div class="ph-fg"><div class="em">'+c.em+'</div><div class="pt">'+c.title+'</div>'+
              '<div class="pd">'+c.cap+'</div><div class="chip">'+c.chip+'</div>'+
-             '<div class="soon">Shot coming soon</div></div>';
+             '<div class="soon">Shot coming soon</div></div></div>';
     } else {
       inner+='<img src="'+c.img+'" alt="'+c.title+'"/>';
       (c.pins||[]).forEach(function(p){
