@@ -356,7 +356,7 @@
         <button class="wl-btn" type="submit">Notify me</button>
       </form>
       <div class="wl-fine">No spam — just one email when your spot opens.</div>
-      <a class="wl-skip" href="https://testflight.apple.com/join/KgprnYKC">Rather keep an eye on it yourself? Check the TestFlight status →</a>
+      <a class="wl-skip" href="https://testflight.apple.com/join/KgprnYKC">No thanks — take me to the beta →</a>
     </div>
     <div class="wl-success">
       <div class="wl-emoji">✅</div>
@@ -456,16 +456,31 @@
 (function(){
   var sh=document.getElementById('shhero'); if(!sh) return;
   var canHover = window.matchMedia && window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var order=['react','capture','share'], idx=-1, timer=null, paused=false, inView=false, resumeT=null;
+  function setState(w){ sh.classList.remove('react','capture','share'); if(w) sh.classList.add(w); }
+  function tick(){ idx=(idx+1)%order.length; setState(order[idx]); }
+  function startAuto(){ if(timer||paused||!inView) return; tick(); timer=setInterval(tick,2400); }
+  function stopAuto(){ if(timer){ clearInterval(timer); timer=null; } }
+  function pauseAuto(temp){ paused=true; stopAuto(); if(resumeT){ clearTimeout(resumeT); resumeT=null; }
+    if(temp){ resumeT=setTimeout(function(){ paused=false; startAuto(); },6000); } }
+  function resumeAuto(){ paused=false; if(resumeT){ clearTimeout(resumeT); resumeT=null; } startAuto(); }
   ['react','capture','share'].forEach(function(w){
     var el=sh.querySelector('.rcs-word.'+w); if(!el) return;
     if(canHover){
-      el.addEventListener('mouseenter',function(){ sh.classList.remove('react','capture','share'); sh.classList.add(w); });
-      el.addEventListener('mouseleave',function(){ sh.classList.remove(w); });
+      el.addEventListener('mouseenter',function(){ paused=true; stopAuto(); setState(w); });
+      el.addEventListener('mouseleave',function(){ setState(null); });
     } else {
       el.addEventListener('click',function(e){ e.preventDefault();
-        var on=sh.classList.contains(w); sh.classList.remove('react','capture','share'); if(!on) sh.classList.add(w); });
+        var on=sh.classList.contains(w); setState(on?null:w); pauseAuto(true); });
     }
   });
+  if(canHover){ var rcsEl=sh.querySelector('.rcs'); if(rcsEl) rcsEl.addEventListener('mouseleave', resumeAuto); }
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){ es.forEach(function(en){
+      inView=en.isIntersecting;
+      if(inView){ startAuto(); } else { stopAuto(); setState(null); idx=-1; }
+    }); }, {threshold:0.35}).observe(sh);
+  } else { inView=true; startAuto(); }
 
   // final CTA: brighten the neon border as it nears the middle of the viewport
   var fin=document.getElementById('finale');
