@@ -261,14 +261,8 @@
   .dots i{ width:8px; height:8px; border-radius:50%; background:#2a3040; cursor:pointer; transition:.25s; }
   .dots i.on{ background:#2ed9f2; box-shadow:0 0 10px rgba(46,217,242,.9); width:22px; border-radius:5px; }
   @media(max-width:560px){ .stage{ height:520px; } .cardw{ width:210px; height:446px; margin:-223px 0 0 -105px; } }
-  /* App Store — coming soon strip (hero) */
-  .appstore-soon{ margin-top:22px; display:flex; flex-direction:column; align-items:center; gap:9px; }
-  .as-badge{ display:inline-flex; align-items:center; gap:11px; padding:9px 20px 9px 16px; border-radius:13px;
-    border:1.5px solid rgba(255,255,255,.25); background:rgba(255,255,255,.045); }
-  .as-badge svg{ width:23px; height:27px; fill:#aeb6c6; flex:none; }
-  .as-txt{ display:flex; flex-direction:column; line-height:1.15; text-align:left; }
-  .as-txt small{ font-size:.58rem; font-weight:800; letter-spacing:2.6px; text-transform:uppercase; color:#8af0ff; }
-  .as-txt b{ font-size:1.06rem; color:#e7edf6; letter-spacing:.2px; }
+  /* App Store — coming soon note (hero) */
+  .appstore-soon{ margin-top:16px; display:flex; justify-content:center; }
   .as-note{ margin:0; font-size:.84rem; color:var(--mut); max-width:460px; text-align:center; }
   .as-note a{ color:#8af0ff; text-decoration:none; border-bottom:1px solid rgba(46,217,242,.5); }
   .as-note a:hover{ color:#c8f8ff; }
@@ -293,11 +287,7 @@
 
     <!-- App Store: coming soon — beta lives on TestFlight for now -->
     <div class="appstore-soon">
-      <span class="as-badge" aria-label="Coming soon to the App Store">
-        <svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
-        <span class="as-txt"><small>Coming soon to the</small><b>App Store</b></span>
-      </span>
-      <p class="as-note">TouCam isn't on the App Store yet — while it's in testing, you get it free through Apple's <a href="https://testflight.apple.com/join/KgprnYKC">TestFlight beta</a> above.</p>
+      <p class="as-note">*TouCam isn't on the App Store yet — while it's in testing, you get it free through Apple's <a href="https://testflight.apple.com/join/KgprnYKC">TestFlight beta</a> above.</p>
     </div>
 
     <div class="showcase-hero" id="shhero">
